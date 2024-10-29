@@ -13,6 +13,7 @@ def test_1_variable():
     print(type(""))  # <class 'str'>  字符串
     print(type(None))  # <class 'NoneType'>   空值类型
 
+
 def test_2_str():
     age = "22"
     msg = '''My name is Alex, 
@@ -22,6 +23,7 @@ I am 22 years old!'''  # 多行 str
     print(age + hometown)
     print(5 * hometown)
     print(hometown * 2)
+
 
 if __name__ == '__main__':
     test_1_variable()
