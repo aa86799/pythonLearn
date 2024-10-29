@@ -14,8 +14,11 @@
 # 使用列表类型，存储员工 class 对象；
 # 若is_choice 已经为 True，则continue 跳过循环；每次抽将完成后，将员工属性 is_choice 置为 True
 #
+# 本方案执行效率较高。
+# 原因：仅一层循环，时间复杂度 O(n)
 
 import random
+import time
 
 
 def lottery_detail(employs, complete_times, awards_count, grade):
@@ -37,7 +40,9 @@ class Employ:
 
 
 def lottery3():
-    employs_count = 300
+    begin_time = time.time()  # 返回时间浮点数，时间是自1970年1月1日以来的秒数
+    multiply = 1000
+    employs_count = 300*multiply
     prefix_str = "lufei_"
     employs = []
     for i in range(employs_count):
@@ -45,9 +50,9 @@ def lottery3():
     # print(type(employs))
     # print(employs)
 
-    awards3 = 30  # 三等奖
-    awards2 = 6  # 二等奖
-    awards1 = 3  # 一等奖
+    awards3 = 30*multiply  # 三等奖
+    awards2 = 6*multiply  # 二等奖
+    awards1 = 3*multiply  # 一等奖
     complete_times = 0  # 已抽员工次数，传入函数时，值都是 0
 
     print("-----开始抽三等奖------")
@@ -58,6 +63,8 @@ def lottery3():
 
     print("-----开始抽一等奖------")
     lottery_detail(employs, complete_times, awards1, "一等奖")
+
+    print(f"共消耗时间 {time.time() - begin_time}")
 
 
 if __name__ == '__main__':

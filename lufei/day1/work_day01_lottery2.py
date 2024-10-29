@@ -13,8 +13,14 @@
 #
 # 使用列表类型，存储员工 class 对象；若已存在于待删除列表，则continue 跳过循环；每次抽将完成后，将数据加入待删除列表；
 # 之后将存在于待删除列表中的数据在原始员工列表中删除掉，并清空待删除列表。
+#
+# 数据量较小时，本方案执行效率还行的；但数据量较大时，就不行了。
+# 原因：    for item in del_item_list:
+#               employs.remove(item)  employs内部会遍历查找匹配的值
+# 时间复杂度 O(n^2)
 
 import random
+import time
 
 
 def lottery_detail(employs, del_item_list, awards_count, grade):
@@ -37,7 +43,9 @@ class Employ:
 
 
 def lottery2():
-    employs_count = 300
+    begin_time = time.time()  # 返回时间浮点数，时间是自1970年1月1日以来的秒数
+    multiply = 250  # 如果为 1000，则整体超级耗时
+    employs_count = 300*multiply
     prefix_str = "lufei_"
     employs = []
     for i in range(employs_count):
@@ -45,9 +53,9 @@ def lottery2():
     # print(type(employs))
     # print(employs)
 
-    awards3 = 30  # 三等奖
-    awards2 = 6  # 二等奖
-    awards1 = 3  # 一等奖
+    awards3 = 30*multiply  # 三等奖
+    awards2 = 6*multiply  # 二等奖
+    awards1 = 3*multiply  # 一等奖
     del_item_list = []  # 待删除员工列表
 
     print("-----开始抽三等奖------")
@@ -58,6 +66,9 @@ def lottery2():
 
     print("-----开始抽一等奖------")
     lottery_detail(employs, del_item_list, awards1, "一等奖")
+
+    print(f"共消耗时间 {time.time() - begin_time}")
+    print(f"共消耗时间 {time.time() - 0}")
 
 
 if __name__ == '__main__':
