@@ -15,7 +15,7 @@
 # 若is_choice 已经为 True，则continue 跳过循环；每次抽将完成后，将员工属性 is_choice 置为 True
 #
 # 本方案执行效率较高。
-# 原因：仅一层循环，时间复杂度 O(n)
+# 原因：仅一层循环；没有其它遍历、删除等操作。时间复杂度 O(n)
 
 import random
 import time
