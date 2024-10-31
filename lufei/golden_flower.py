@@ -10,7 +10,7 @@
 # 1.先生成一付完整的扑克牌
 # 2.给5个玩家随机发牌
 # 3.统一开牌，比大小，输出赢家是谁
-# 4. 允许 点数一到处，但不同花色各牌型 大小一致。eg. ♠️2/3/4 平 ♥️2/3/4
+# 4.各牌型中出现，点数一致，但不同花色时，判断结果为 大小一致。eg. ♠️2/3/4 平 ♥️2/3/4
 
 import random
 
@@ -61,12 +61,29 @@ class Poker:
 
 
 def swap(players, i, j):
+    """
+    交换玩家位置
+    """
     temp = players[i]
     players[i] = players[j]
     players[j] = temp
 
 
 def compare(players):
+    """
+    1. 玩家对象 按牌型排序
+    2. 单玩家手中牌  按点数字符的索引排序
+    3. 遍历玩家对象，首元素跳过，牌型大的位置不变，牌型小的交换元素位置到前一个位置；
+            牌型相同时：
+                a. 牌型 in [豹子, 同花顺, 顺子]: 判断牌列表首字符索引大的则大；eg. [2/2/2] < [3/3/3], [9/10/J] < [10/J/Q]
+                    考虑特殊顺子的情况 [2/3/A] < [3/4/5] 符合判定规则。
+                b. 牌型 == 对子：判断是符合 [A/A/B] 还是 [A/B/B] ，取出属于对子的点数索引，和单张的点数索引，再分别判断。
+                    对子的点数索引大则大；其若相同时，再判断 单张的点数索引大则大。
+                c. 牌型 in [同花、散张]：因为前面已经内部对三牌列表进行了升序排序，先判断第三张哪个大的则大，再判断第2张，再判断第一张。
+    4. 注意：例如，当牌型全是单张时，且最大点数索引不一致，列表[11,12,7,5]，在一次遍历后，得到[12,11,5,7]；
+            此结果，并不符合最终期望[5,7,11,12]。所以外部调用时，需要比较 (player_count-1)次
+    :return: 返回 排序后的新的玩家 players 列表
+    """
     print("------牌型大小排序后------")
     new_players = sorted(players, key=lambda p: p.pokers_mode)  # 玩家对象 按牌型排序
     for item in new_players:
@@ -252,7 +269,7 @@ def gambling():
     players_count += 2
 
     # 因使用内部元素比对后，交换位置的方法，所以需要类似冒泡排序一样，增加一个外部循环，进行多次排序。
-    for i in range(0, players_count):
+    for i in range(0, players_count - 1):
         new_players = compare(players)
         players = new_players
     print("------比大小，排序最终结果------")
@@ -261,12 +278,12 @@ def gambling():
     print("------比大小，最大结果------")
     step = -1
     for i in range(0, players_count):
-        if i == 0:  # step - i 即 [-1] ，肯定是属于最大的其一
+        if i == 0:  # step + i 即 [-1] ，肯定是属于最大的其一
             print(f"玩家-{players[step + i].name}，", f"牌型-{poker_mode_desc(players[step + i].pokers_mode)}，",
                   display(players[step + i].pokers))
             step -= 2
             continue
-        cur = players[step + i]
+        cur = players[step + i]  # step(-3) + i(1) 即 [-2] 右向左数第2个
         pre = players[step + i + 1]
         # 后面的 每一位字符和前面的每一位相同，则一样大
         if cur.pokers_mode == pre.pokers_mode and cur.pokers[0].char == pre.pokers[0].char \
