@@ -10,6 +10,7 @@
 # 1.先生成一付完整的扑克牌
 # 2.给5个玩家随机发牌
 # 3.统一开牌，比大小，输出赢家是谁
+# 补充要求：
 # 4.各牌型中出现，点数一致，但不同花色时，判断结果为 大小一致。eg. ♠️2/3/4 平 ♥️2/3/4
 
 import random
@@ -264,9 +265,10 @@ def gambling():
     # for item in mode_list:
     #     display(item.pokers)
 
-    players.append(Player("11", [Poker('♣️', 'J', 0), Poker('♠️', 'Q', 2), Poker('♣️', 'K', 12)], 3))
-    players.append(Player("12", [Poker('♥️', 'J', 0), Poker('♦️', 'Q', 2), Poker('♠️', 'K', 12)], 3))
-    players_count += 2
+    # test
+    # players.append(Player("11", [Poker('♣️', 'J', 0), Poker('♠️', 'Q', 2), Poker('♣️', 'K', 12)], 3))
+    # players.append(Player("12", [Poker('♥️', 'J', 0), Poker('♦️', 'Q', 2), Poker('♠️', 'K', 12)], 3))
+    # players_count += 2
 
     # 因使用内部元素比对后，交换位置的方法，所以需要类似冒泡排序一样，增加一个外部循环，进行多次排序。
     for i in range(0, players_count - 1):
@@ -297,3 +299,14 @@ def gambling():
 
 if __name__ == "__main__":
     gambling()
+    print("\n")
+
+    p_cards = [("ABC", 999), ('♠️', '3'), ('♦️', '3'), ('♣️', '3')]  # tuple 元素类型() 组成的列表
+    card_val = {i[1] for i in p_cards}  # 取 每个元素中的第二个值  i[1]  返回 set 类型
+    score = 1
+    if len(card_val) == 1:
+        score *= 100000
+    print(f"计算豹子的结果是：{score}")
+
+    color_val = [i[0][0] for i in p_cards]
+    print(color_val)
