@@ -43,6 +43,9 @@ def poker_mode_desc(pokers_mode):
 
 
 class Player:
+    """
+    玩家模型
+    """
     def __init__(self, name, pokers, pokers_mode):
         self.name = name  # 玩家名
         self.pokers = pokers  # 持有的三张牌列表
@@ -82,7 +85,10 @@ def compare(players):
                     对子的点数索引大则大；其若相同时，再判断 单张的点数索引大则大。
                 c. 牌型 in [同花、散张]：因为前面已经内部对三牌列表进行了升序排序，先判断第三张哪个大的则大，再判断第2张，再判断第一张。
     4. 注意：例如，当牌型全是单张时，且最大点数索引不一致，列表[11,12,7,5]，在一次遍历后，得到[12,11,5,7]；
-            此结果，并不符合最终期望[5,7,11,12]。所以外部调用时，需要比较 (player_count-1)次
+            此结果，并不符合最终期望[5,7,11,12]。
+            所以外部调用时，需要比较 (player_count-1)次:
+                for i in range(0, player_count-1):
+                    players = compare(players)
     :return: 返回 排序后的新的玩家 players 列表
     """
     print("------牌型大小排序后------")
@@ -272,8 +278,7 @@ def gambling():
 
     # 因使用内部元素比对后，交换位置的方法，所以需要类似冒泡排序一样，增加一个外部循环，进行多次排序。
     for i in range(0, players_count - 1):
-        new_players = compare(players)
-        players = new_players
+        players = compare(players)
     print("------比大小，排序最终结果------")
     for item in players:
         print(f"玩家-{item.name}，", f"牌型-{poker_mode_desc(item.pokers_mode)}，", display(item.pokers))
