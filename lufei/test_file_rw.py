@@ -41,7 +41,7 @@ def test_file_rw2():
 
 def test_file_rw3():
     print("----test_file_rw3----")
-    f = open("person_info", mode="r")
+    f = open("person_info", mode="r", encoding="utf-8")
     for line in f:
         line = line.split()
         name, addr, height, weight, phone = line
