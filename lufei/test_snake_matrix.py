@@ -1,7 +1,21 @@
+from datetime import datetime
+
+
+# 自定义一个装饰函数
+def func_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("Before function call", datetime.now())
+        result = func(*args, **kwargs)
+        print("After function call", datetime.now())
+        return result
+    return wrapper
+
+
 # 蛇形矩阵，是一个 n*n 的矩阵
 from array import array  # 从 array 模块中直接导入 array 类，导入后，你可以直接使用 array 类，而不需要再通过模块名（array.array）来引用
 
 
+@func_decorator
 def snake(n):
     # 列表推导式，用于创建列表的简洁方式
     # 列表推导式的基本结构：[expression for item in iterable]
@@ -52,7 +66,8 @@ def snake(n):
             rearranged_matrix[i][j] = array3[j][i]
     for row in rearranged_matrix:
         print(row)
+    return 111
 
 
 if __name__ == "__main__":
-    snake(5)
+    print(snake(5))
